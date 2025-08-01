@@ -1,7 +1,7 @@
 {
   "name": "Verificador de Digitação",
   "short_name": "Verificador",
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f4f6f8",
   "theme_color": "#007acc",
