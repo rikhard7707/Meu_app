@@ -1,31 +1,62 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verificador de Digitação (PWA)</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Verificador2 (PWA)</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f0f0f0; padding: 20px; }
+    textarea { width: 90%; max-width: 600px; margin: 10px auto; padding: 10px; font-size: 16px; }
+    #resultado { margin-top: 20px; font-weight: bold; font-size: 18px; }
+    .ok { color: green; }
+    .erro { color: red; }
+  </style>
 </head>
 <body>
-  <h1>Verificador de Digitação (PWA)</h1>
 
-  <details>
-    <summary>📋 Texto de referência (clique para abrir)</summary>
-    <textarea id="original" placeholder="Cole aqui o texto/script de referência"></textarea>
-  </details>
+<h1>Verificador2 (PWA)</h1>
 
-  <textarea id="entrada" placeholder="Digite aqui para testar"></textarea>
+<details>
+  <summary>📋 Texto de referência (clique para abrir)</summary>
+  <textarea id="original" placeholder="Cole aqui o texto/script de referência"></textarea>
+</details>
 
-  <div id="resultado"></div>
+<textarea id="entrada" placeholder="Digite aqui para testar"></textarea>
 
-  <script src="script.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registrado com sucesso!'))
-        .catch((error) => console.log('Falha ao registrar Service Worker:', error));
-    }
-  </script>
+<div id="resultado">Aguardando digitação...</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('Service Worker registrado!'))
+    .catch(error => console.log('Falha ao registrar Service Worker:', error));
+}
+
+const originalEl = document.getElementById('original');
+const entradaEl = document.getElementById('entrada');
+const resultadoEl = document.getElementById('resultado');
+
+entradaEl.addEventListener('input', () => {
+  const original = originalEl.value.trim();
+  const entrada = entradaEl.value.trim();
+
+  if (!original) {
+    resultadoEl.textContent = "Insira primeiro o texto de referência!";
+    resultadoEl.className = 'erro';
+    return;
+  }
+
+  if (original.startsWith(entrada)) {
+    resultadoEl.textContent = "✅ Até aqui está correto!";
+    resultadoEl.className = 'ok';
+  } else {
+    resultadoEl.textContent = "❌ Diferença detectada!";
+    resultadoEl.className = 'erro';
+  }
+});
+</script>
+
 </body>
 </html>
